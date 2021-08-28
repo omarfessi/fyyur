@@ -609,9 +609,20 @@ def create_artist_submission():
 
 @app.route('/shows')
 def shows():
-  # displays list of shows at /shows
-  # TODO: replace with real venues data.
-  data=[{
+  data = []
+  shows = db.session.query(Show).join(Venue).join(Artist).all()
+  for show in shows : 
+    data.append({
+      "venue_id" : show.venue_id,
+      "venue_name": show.venue.name,
+      "artist_id": show.artist_id,
+      "artist_name": show.artist.name,
+      "artist_image_link": show.artist.image_link,
+      #TypeError: Parser must be a string or character stream, not datetime
+      "start_time" : show.start_time.strftime('%Y-%m-%d %H:%M:%S')
+       })
+
+  """data=[{
     "venue_id": 1,
     "venue_name": "The Musical Hop",
     "artist_id": 4,
@@ -646,7 +657,7 @@ def shows():
     "artist_name": "The Wild Sax Band",
     "artist_image_link": "https://images.unsplash.com/photo-1558369981-f9ca78462e61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=794&q=80",
     "start_time": "2035-04-15T20:00:00.000Z"
-  }]
+  }]"""
   return render_template('pages/shows.html', shows=data)
 
 @app.route('/shows/create')
