@@ -1,4 +1,6 @@
-from app import db
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
 class Venue(db.Model):
     __tablename__ = 'Venue'
 
@@ -21,7 +23,6 @@ class Venue(db.Model):
     #add relationships 
     shows=db.relationship('Show', backref='venue', lazy=True)
 
-    # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
 class Artist(db.Model):
     __tablename__ = 'Artist'
