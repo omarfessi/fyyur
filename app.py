@@ -326,7 +326,7 @@ def edit_artist_submission(artist_id):
   artist = db.session.query(Artist).filter(Artist.id == artist_id).first()
   form = ArtistForm(request.form)
   try : 
-    artist.name = request.form["name"]
+    artist.name = form.name.data
     artist.city = form.city.data,
     artist.state = form.state.data,
     artist.phone = form.phone.data,
@@ -406,7 +406,7 @@ def create_artist_form():
 def create_artist_submission():
   form = ArtistForm(request.form)
   try :
-    new_artist=Artist(name=request.form["name"], 
+    new_artist=Artist(name=form.name.data, 
       city=form.city.data,
       state = form.state.data,
       phone = form.phone.data,
