@@ -461,10 +461,11 @@ def create_shows():
 
 @app.route('/shows/create', methods=['POST'])
 def create_show_submission():
+  form = ShowForm(request.form)
   try : 
-    new_show = Show(venue_id = request.form["venue_id"],
-    artist_id = request.form["artist_id"],
-    start_time = request.form["start_time"])
+    new_show = Show(venue_id = form.venue_id.data,
+    artist_id = form.artist_id.data,
+    start_time = form.start_time.data)
 
     db.session.add(new_show)
     db.session.commit()
