@@ -174,18 +174,19 @@ def create_venue_form():
 
 @app.route('/venues/create', methods=['POST'])
 def create_venue_submission():
+  form = VenueForm(request.form)
   try :
-    new_venue=Venue(name = request.form["name"], 
-    city = request.form["city"],
-    state = request.form["state"],
-    address = request.form["address"],
-    phone = request.form["phone"],
-    genres = request.form.getlist("genres"),
-    image_link = request.form["image_link"],
-    facebook_link = request.form["facebook_link"],
-    website_link = request.form["website_link"],
+    new_venue=Venue(name = form.name.data,
+    city = form.city.data,
+    state = form.state.data,
+    address = form.address.data,
+    phone = form.phone.data,
+    genres = form.genres.data,
+    image_link = form.image_link.data,
+    facebook_link = form.facebook_link.data,
+    website_link = form.website_link.data,
     seeking_talent = True if "seeking_talent" in request.form else False,
-    seeking_description = request.form["seeking_description"])
+    seeking_description = form.seeking_description.data)
     
     db.session.add(new_venue)
     db.session.commit()
@@ -323,17 +324,19 @@ def edit_artist(artist_id):
 def edit_artist_submission(artist_id):
 
   artist = db.session.query(Artist).filter(Artist.id == artist_id).first()
+  form = ArtistForm(request.form)
   try : 
-    artist.name = request.form['name']
-    artist.city = request.form['city']
-    artist.state = request.form['state']
-    artist.phone = request.form['phone']
-    artist.genres = request.form.getlist('genres')
-    artist.image_link = request.form['image_link']
-    artist.facebook_link = request.form['facebook_link']
-    artist.website_link = request.form['website_link']
+    artist.name = request.form["name"]
+    artist.city = form.city.data,
+    artist.state = form.state.data,
+    artist.phone = form.phone.data,
+    artist.genres = form.genres.data,
+    artist.image_link = form.image_link.data,
+    artist.facebook_link = form.facebook_link.data,
+    artist.website_link = form.website_link.data,
     artist.seeking_venue = True if 'seeking_venue' in request.form else False 
-    artist.seeking_description = request.form['seeking_description']
+    artist.seeking_description = form.seeking_description.data
+  
 
     db.session.commit()
     flash(f'Artist was successfully updated!')
@@ -368,18 +371,19 @@ def edit_venue(venue_id):
 def edit_venue_submission(venue_id):
 
   venue = db.session.query(Venue).filter(Venue.id == venue_id).first()
+  form = VenueForm(request.form)
   try : 
-    venue.name = request.form['name']
-    venue.city = request.form['city']
-    venue.state = request.form['state']
-    venue.address = request.form['address']
-    venue.phone = request.form['phone']
-    venue.genres = request.form.getlist('genres')
-    venue.image_link = request.form['image_link']
-    venue.facebook_link = request.form['facebook_link']
-    venue.website_link = request.form['website_link']
+    venue.name = form.name.data
+    venue.city = form.city.data
+    venue.state = form.state.data
+    venue.address = form.address.data
+    venue.phone = form.phone.data
+    venue.genres = form.genres.data
+    venue.image_link = form.image_link.data
+    venue.facebook_link = form.facebook_link.data
+    venue.website_link = form.website_link.data
     venue.seeking_talent = True if 'seeking_talent' in request.form else False 
-    venue.seeking_description = request.form['seeking_description']
+    venue.seeking_description = form.seeking_description.data
 
     db.session.commit()
     flash(f'Venue was successfully updated!')
@@ -400,18 +404,19 @@ def create_artist_form():
 
 @app.route('/artists/create', methods=['POST'])
 def create_artist_submission():
+  form = ArtistForm(request.form)
   try :
     new_artist=Artist(name=request.form["name"], 
-      city=request.form["city"],
-      state = request.form["state"],
-      phone = request.form["phone"],
-      genres = request.form.getlist("genres"),
-      image_link = request.form["image_link"],
-      facebook_link = request.form["facebook_link"],
-      website_link = request.form["website_link"],
+      city=form.city.data,
+      state = form.state.data,
+      phone = form.phone.data,
+      genres = form.genres.data,
+      image_link = form.image_link.data,
+      facebook_link = form.facebook_link.data,
+      website_link = form.website_link.data,
       seeking_venue = True if "seeking_venue" in request.form else False,
-      seeking_description = request.form["seeking_description"])
-
+      seeking_description = form.seeking_description.data
+    )
     db.session.add(new_artist)
     db.session.commit()
     flash('Artist ' + request.form['name'] + ' was successfully listed!')
